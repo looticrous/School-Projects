@@ -1,0 +1,31 @@
+
+#carryout-button {
+  float: left;
+  height: 75px;
+  width: 25%;
+}
+#delivery-button {
+  float: right;
+  height: 75px;
+  width: 25%;
+}
+#primary-logo{
+  height: 100px;
+}
+#special-img{
+  width: 100%;
+}
+.special-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.btn {
+  border-radius: 0;
+}
