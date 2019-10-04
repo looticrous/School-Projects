@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/dark-hive/jquery-ui.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+    <title>Front End Web Dev - Assignment 1 - David Blanchard</title>
+    <style>
+  [contenteditable=true]:empty::before {
+    content: attr(placeholder);
+    color: #555; 
+  }
+
+  [contenteditable=true] {
+    border: 1px solid black; 
+  }
+  
+    #content {
+        width: 50%; 
+        margin: 0 auto; 
+        border: 1px solid black; 
+        box-shadow: 3px 3px 3px 3px; 
+    }
+    
+
+    
+    </style>
+  </head>
+  <body>
+      <div style="margin: 0 auto; width: 50%; text-align: center;">
+            <h3>Ingredient Tracker App America Go Time YEA!! Welcome to Flavor Town!</h3>
+            <img width="50%" class="rounded mx-auto d-block" src="guyfieri.jpg">
+      </div>
+        
+      
+      <div class="container" style="margin: 0 auto; width: 50%;">
+        <button class="btn btn-dark" id="add-recipe">Add New Recipe</button>
+        <button style="float: right;" class="btn btn-dark" id="delete-all">I Want To Start Over</button>
+      </div>
+      <div id="content" class="container">
+            
+      </div>
+            
+    
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+			  src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+			  integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+			  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+    <script>
+        $('document').ready(function(){
+        
+          try {
+            var stored_items = JSON.parse(localStorage.getItem('stored_items')); 
+          if (stored_items != null) {
+            console.log("Stored items found... populating..."); 
+            for (var i = 0; i < stored_items.length; i ++) {
+              $('#content').append('<div contenteditable="true" id="'+stored_items[i].id+'" class="summernote" placeholder="Describe your trip to Flavor Town here...">'+stored_items[i].content+'</div>');
+            }
+            
+          }
+          else{
+            console.log("No stored items found..."); 
+            var stored_items = []; 
+            console.log(stored_items); 
+          }
+          }
+          catch{
+            console.log("No stored items found...")
+            var stored_items = []; 
+          }
+          
+         
+          $("#content").sortable(); 
+            $('#add-recipe').on('click', function(){
+                var nid = new Date().getTime(); 
+                $('#content').append('<div contenteditable="true" id="'+nid+'" class="summernote" placeholder="Describe your trip to Flavor Town here..."></div>'); 
+               
+            }); 
+            $("#delete-all").on("click", function(){
+              localStorage.clear(); 
+              location.reload(); 
+            });   
+            $(document).on('blur','[contenteditable=true]', function(){
+                var save_id = $(this).attr('id'); 
+                console.log("saving "+save_id + "...."); 
+                match = false;
+                if (stored_items != null) {
+                  for (var i = 0; i < stored_items.length; i ++) {
+                  if (save_id == stored_items[i].id) {
+                    console.log("match found..."); 
+                    console.log($(this).html()); 
+                    stored_items[i].id = save_id; 
+                    stored_items[i].content = $(this).html(); 
+                    match = true; 
+                  }
+                }
+                if (!match) {
+                  console.log("saving new..."); 
+                  stored_items.push({
+                    'id':save_id, 
+                    'content':$(this).html()
+                  });
+                  console.log($(this).html()); 
+                  console.log(stored_items); 
+                  localStorage.setItem('stored_items', JSON.stringify(stored_items)); 
+                }
+                else{
+                  ("updating record..." + save_id); 
+                  localStorage.setItem('stored_items', JSON.stringify(stored_items)); 
+                }
+                }
+                else{
+                  console.log("saving new..."); 
+                  stored_items.push({
+                    'id':save_id, 
+                    'content':$(this).html()
+                  });
+                  localStorage.setItem('stored_items', JSON.stringify(stored_items)); 
+                } 
+                
+            }); 
+            $(document).on('mousedown', '[contenteditable=true]', function(){
+              console.log("clicked"); 
+              $(this).focus(); 
+            }); 
+            $(document).on('keyup', '[contenteditable=true]', function(event){
+              if (event.keyCode == 13) {
+                   $(this).text($(this).text() + "<br>"); 
+                
+               }
+             }); 
+             
+           
+        }); 
+    </script>
+  </body>
+</html>
