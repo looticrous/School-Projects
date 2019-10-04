@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Highlighter JS Demo</title>
+</head>
+<body>
+	<small>Press the buttons below to highlight the two contenteditable divs</small>
+	<div contenteditable="true">Here's some random Text. Email Address: drblanchard@mail.fhsu.edu - #FlavorTown #Idontknowwhatimdoing</div>
+	<div contenteditable="true">Here's some more text bra.. iluvjeffdunham@aol.net ... #dankmemes</div>
+	<button id='highlight-emails'>Highlight Emails</button>
+	<button id='highlight-text'>Hightlight Text</button>
+	<button id='highlight-hashtags'>Highlight Hashtags</button>
+	<button id='highlight-all'>Highlight All</button>
+	<br>
+	<br>
+	<small>Press the button to highlight text by passing in the ID of the paragraph.. This test also changes the delimiter from empty space to a comma..</small>
+	<p id="test">drblanchard@mail.fhsu.edu,testing comma delimited string replacement is super fun!,#ohhhhyea!!<p>
+	<button id="highlight-id">Highlight by ID</button>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="highlighter.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#highlight-all').on('click', function(){
+				$.each($('body').find('[contenteditable=true]'), function(){ 
+					$(this).highlight({ 
+						text: "text", 
+						text_background_color: "green", 
+						email_background_color: "red"
+					}); 
+				});
+			});
+			$('#highlight-emails').on('click', function(){
+				$.each($('body').find('[contenteditable=true]'), function(){ 
+					$(this).highlight({
+						match_text: false,
+						match_hashtags: false 
+					}); 
+				});
+			});
+			$('#highlight-text').on('click', function(){
+				$.each($('body').find('[contenteditable=true]'), function(){ 
+					$(this).highlight({ 
+						match_hashtags: false,
+						match_emails: false,
+						text: "Here's"
+					}); 
+				});
+			});
+			$('#highlight-hashtags').on('click', function(){
+				$.each($('body').find('[contenteditable=true]'), function(){ 
+					$(this).highlight({ 
+						match_text: false,
+						match_emails: false
+					}); 
+				});
+			});  
+			$("#highlight-id").on('click', function(){ 
+				$('#test').highlight({delimiter: ","}); 
+			}); 
+
+		});
+		
+		
+
+
+	
+	</script>
+</body>
+</html>
