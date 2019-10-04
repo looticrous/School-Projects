@@ -1,0 +1,44 @@
+.container {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 10% 90%;
+  grid-template-areas: "head head head head" "main main main side";
+}
+@media screen and (max-width: 899px) {
+  .container {
+    display: grid;
+    grid-template-areas: "head" "main" "side";
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+.full-panel {
+  height: 100%;
+  width: 100%;
+  background-color: blue;
+}
+
+.container > div {
+  background-color: yellow;
+  border: 3px solid black;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+.head {
+  grid-area: head;
+}
+
+.main {
+  grid-area: main;
+}
+
+.side {
+  grid-area: side;
+}
+
+/*# sourceMappingURL=gridtest.css.map */
