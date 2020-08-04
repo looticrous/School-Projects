@@ -23,7 +23,7 @@
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         ];
         /// Change this before uploading
-        parent::__construct("mysql:host=localhost;dbname=bamboo;charset=utf8mb4", "bamboo_admin", "Th3P@ssw0rd1sN0tS3cure!!", $options);
+        parent::__construct("geturownthings", $options);
     }
     public function run($sql, $args = NULL)
     {
